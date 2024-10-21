@@ -1,10 +1,11 @@
 const jwt = require("jsonwebtoken")
 const userModel = require("../models/user-model")
+const flash = require("connect-flash")
 
 module.exports = async function (req, res, next) {
     if (!req.cookies.token) {
-        res.flash("error","Please login again.")
-        return res.render("/")
+        req.flash("error", "Please login again.")
+        return res.redirect("/")
     }
     try {
         let decode = jwt.verify(req.cookies.token, process.env.JWT_KEY)
@@ -12,7 +13,7 @@ module.exports = async function (req, res, next) {
         req.user = user
         next();
     } catch (err) {
-        res.flash("error,something went wrong.")
+        req.flash("error","something went wrong.")
         res.redirect("/")
     }
 

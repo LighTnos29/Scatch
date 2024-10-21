@@ -4,9 +4,10 @@ const {registerUser, loginUser} = require("../controllers/authConroller")
 
 
 router.get("/",(req,res)=>{
-    res.send("hello user")
+    res.render("/index")
 })
 
 router.post("/register",registerUser)
 router.post("/login",loginUser)
+
 module.exports = router

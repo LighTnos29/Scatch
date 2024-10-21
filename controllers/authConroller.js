@@ -21,14 +21,14 @@ module.exports.registerUser = async function (req, res) {
           })
           let token = generateToken(user)
           res.cookie("token", token)
-          res.send("User created successfuly")
+          res.redirect("/shop")
         }
       });
     });
 
 
-  } catch (err) {
-    console.log(err.message);
+  } catch (error) {
+    console.log(error.message);
 
   }
 }
@@ -37,11 +37,11 @@ module.exports.loginUser = async function (req, res) {
   let { email, password } = req.body
   let user = await userModel.findOne({ email })
   if (!email) return res.send("Email or password incorrect.")
-  bcrypt.compare(password, user.password, function (err, result) {
+  bcrypt.compare(password, user.password , function (err, result) {
     if(result){
       let token = generateToken(user)
       res.cookie("token",token)
-      res.send("You can login")
+      res.redirect("/shop")
     }
     else{
       res.send("Email or password incorrect.")
